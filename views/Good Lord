@@ -138,22 +138,20 @@ useUnifiedTopology: true})
       //     }
       //   })
 
-        app.put('/quotes', (req, res) => {
-          const val = req.body.st
-            quotesCollection.findOneAndUpdate(
-              { name: req.body.name,
-                quote: req.body.quote,
-                store: req.body.store},
-              { $set: { st: !val, } },
-              { upsert: false }
-            )
-            .then(result => {
-              // console.log(".then triggered")
-              // console.log(result)
-              res.render('./views/index.ejs')
-            })
-            .catch(error => console.error(error))
-        })
+      //   app.put('/quotes', (req, res) => {
+      //     const val = req.body.st
+      //       quotesCollection.findOneAndUpdate(
+      //         { name: req.body.name},
+      //         { $set: { st: !val, } },
+      //         { upsert: false }
+      //       )
+      //       .then(result => {
+      //         // console.log(".then triggered")
+      //         // console.log(result)
+      //         res.render('./views/index.ejs')
+      //       })
+      //       .catch(error => console.error(error))
+      //   })
 
 
 
@@ -189,19 +187,6 @@ useUnifiedTopology: true})
       
          nameFormatFunc()
          storeFormatFunc()
-
-            // quotesCollection.findOneAndUpdate(
-            //  { name: nameFormatted,
-            //    store: req.body.store,
-            //    type:  "item"},
-            //  { $set: { st: false,
-            //         quote: req.body.quote  } },
-            //  { upsert: true }
-            // )   
-            quotesCollection.deleteOne(
-            { name: nameFormatted,
-              store: storeFormatted,
-              type: "item"})
       
            quotesCollection.insertOne(
              { name: nameFormatted,
@@ -210,40 +195,21 @@ useUnifiedTopology: true})
                store: storeFormatted,
                type: "item"}
            )
-           .then(result => {
-            res.redirect('/')
+           .then(res => {
+             res.redirect('/')
            })
            .catch(error => console.error(error))
          }else if(req.body.type === 'storeName'){
-          
-
-          let dropDownFormatted 
-          let dropDownFormattedfunc = function (){
-            dropDownFormatted = req.body.storeName.toLowerCase().trim().split('')
-           for (let i = 0; i < dropDownFormatted.length ; i++){
-             if (i === 0 || dropDownFormatted[i-1] === ' '){
-              dropDownFormatted[i] = dropDownFormatted[i].toUpperCase()
-             }
-           } 
-           dropDownFormatted = dropDownFormatted.join('')
-           return dropDownFormatted
-         } 
-          dropDownFormattedfunc()
-
-
-          quotesCollection.deleteOne(
-            { storeName: dropDownFormatted,
-              type: "storeName"})
-
-          console.log(`storeName Add ${dropDownFormatted}`)
+      
+          console.log("storeName Add")
           //  console.log(req.body)
           //  console.log(req.body.storeName)
            quotesCollection.insertOne(
-             { storeName: dropDownFormatted,
+             { storeName: req.body.storeName,
                type: "storeName"}
            )
-           .then(result => {
-            res.redirect('/')
+           .then(res => {
+             res.redirect('/')
            })
            .catch(error => console.error(error))
          }
@@ -258,47 +224,13 @@ useUnifiedTopology: true})
 
 
 
-          // app.delete('/quotes', (req, res) => {
-          //   // console.log(req.body);
-          //   //if(req.body.name !== '')
-
-          //   {
-          //     quotesCollection.deleteOne(req.body)
-          //       .then(result => {
-          //         res.json('Success')
-          //        })
-          //       .catch(error => console.error(error))
-          //   }
-          //   // else if(req.body.name === ''){
-          //   //   quotesCollection.deleteMany({})
-          //   //   .then(result => {
-          //   //     if (result.deletedCount === 0) {
-          //   //       return res.json('No quote to delete')
-          //   //     }
-          //   //     res.json(`Deleted All Entries`)
-          //   //   })
-          //   //   .catch(error => console.error(error))
-          //   // }
-          // })
-
-
-
           app.delete('/quotes', (req, res) => {
             // console.log(req.body);
-            if(req.body.type !== 'storeName') {
-              console.log("delete func called for one grocery item")
+            //if(req.body.name !== '')
+            {
               quotesCollection.deleteOne(req.body)
                 .then(result => {
                   res.json('Success')
-                  console.log(`delete of grocery item: "${req.body.name}" was successful`)
-                 })
-                .catch(error => console.error(error))
-            }else if(req.body.type === 'storeName') {
-              console.log("delete func called for one store name")
-              quotesCollection.deleteOne(req.body)
-                .then(result => {
-                  res.json('Success')
-                  console.log(`delete of store name: "${req.body.storeName}" was successful`)
                  })
                 .catch(error => console.error(error))
             }
@@ -314,16 +246,8 @@ useUnifiedTopology: true})
             // }
           })
 
-
-
-
-
-
-
-
-
         app.listen(process.env.PORT || PORT, function() {
           console.log('Connected to server')
        })
   })
-  .catch(console.error) 
+  .catch(console.error)

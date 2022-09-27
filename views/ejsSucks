@@ -1,0 +1,126 @@
+ <!-- <div class="listInput">
+      <h1>Add a store</h1>
+
+      <form class="form" action="/quotes" method="POST">
+        <label for="stores">Stores List:</label>
+        <select id="stores" name="stores">
+               
+        
+        <% storeList.forEach((item, i) => { %>
+          
+          <option value=<%=i%>><%= item %></option>
+        <% }) %>
+      </select>  
+        <button id='submit-button-store' type="submit">&#10132;</button>
+        <button id='submit-button-store' type="submit">&#10132;</button>
+      </form>
+    </div> -->
+
+
+
+    {dropDownValues: userSavedStores,
+      storeList: storesAlphabetizedNoDuplicates}
+<!-- This is the proper funcioning drop down connected to proper database
+<div class="listInput">
+  <h1>Add a store</h1>
+
+  <form class="form" action="/quotes" method="POST">
+    <label for="stores">Stores List:</label>
+    <select id="stores" name="stores">
+           
+    
+    <% storeCollection.forEach((item, i) => { %>
+      
+      <option value=<%=i%>><%= item.StoreName %></option>
+    <% }) %>
+  </select>  
+    <button id='submit-button-store' type="submit">&#10132;</button>
+    <button id='submit-button-store' type="submit">&#10132;</button>
+  </form>
+</div> -->
+
+
+
+<div class="listInput">
+  <h1>Add a store</h1>
+
+  <form class="form" action="/quotes" method="POST">
+    <label for="stores">Stores List:</label>
+    <select id="stores" name="stores">
+           
+    
+    <% dropDownValues.forEach((item, i) => { %>
+      
+      <option value=<%=i%>><%= item.storeName %></option>
+    <% }) %>
+  </select>  
+    <button id='submit-button-store' type="submit">&#10132;</button>
+    <button id='submit-button-store' type="submit">&#10132;</button>
+  </form>
+</div>
+
+
+
+
+
+app.post('/quotes', (req, res) => {
+  if (req.body.type === 'item' && req.body.name !== ''){
+
+   // let nameFormatted 
+   let nameFormatFunc = function (){
+     nameFormatted =req.body.name.toLowerCase().trim().split('')
+     for (let i = 0; i < nameFormatted.length ; i++){
+       if (i === 0 || nameFormatted[i-1] === ' '){
+         nameFormatted[i] = nameFormatted[i].toUpperCase()
+       }
+     }
+     nameFormatted = nameFormatted.join('')
+     return nameFormatted
+   }
+   
+   // let storeFormatted 
+   // let storeFormatFunc = function (){
+   //   storeFormatted = req.body.store.toLowerCase().trim().split('')
+   //   for (let i = 0; i < storeFormatted.length ; i++){
+   //     if (i === 0 || storeFormatted[i-1] === ' '){
+   //       storeFormatted[i] = storeFormatted[i].toUpperCase()
+   //     }
+   //   } 
+   //   storeFormatted = storeFormatted.join('')
+   //   return storeFormatted
+   // } 
+
+   nameFormatFunc()
+   storeFormatFunc()
+
+     quotesCollection.insertOne(
+       { name: nameFormatted,
+         quote: req.body.quote,
+         st: false,
+         store: storeFormatted,
+         type: "item"}
+     )
+     .then(res => {
+       res.redirect('/')
+     })
+     .catch(error => console.error(error))
+   }else if(req.body.type === 'storeName'){
+
+     console.log(req.body)
+     console.log(req.body.storeName)
+     quotesCollection.insertOne(
+       { storeName: req.body.storeName,
+         type: "storeName"}
+     )
+     .then(res => {
+       res.redirect('/')
+     })
+     .catch(error => console.error(error))
+   }
+   // else{
+   //   console.log('no values submitted')
+   //   .then(result => {
+   //     res.redirect('/')
+   //   })
+   // }
+ })
