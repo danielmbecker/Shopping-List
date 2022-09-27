@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Shopping List CRUD App</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/styles.css"> 
+
+</head>
+<body>
+  <h1 id="title" class=title> Shopping List App</h1>
+
+
+  <!-- <label for="Store">Store:</label>
+    <select name="store" id="store">
+      <option value="SafeWay" selected>SafeWay</option>
+      <option value="Trader Hoe's">Trader Hoe's</option>
+      <option value="Costco">Costco</option>
+    </select> -->
+
+
+  <div class=flex>
+    <div class="listInput flexChild">
+      <h1>Add an Item</h1>
+
+      <form class="form" action="/quotes" method="POST">
+        <input autocapitalize type="text" minlength=1 placeholder="Store" name="store" id="input-store">
+          <input autocapitalize type="text" minlength=1 placeholder="Item" name="name" id="input-name">
+          <input type="text" placeholder="Quantity" name="quote" id="input-quote">
+          <!-- type="number" min="0" -->
+          <button id='submit-button' type="submit">&#10132;</button>
+         
+          <div id="message"></div>
+      </form>
+    </div>
+
+
+
+
+  <div class=listView>
+    <h2> Current List </h2>
+    <ul class="quotes">
+      <!-- Loop through quotes -->
+      <% quotes.forEach(el => { %>
+        <li class="quote listItem" data-id='<%=el._id%>' data-name='<%=el.name%>' data-bool='<%=el.st%>'>
+          <!-- Output name from the iterated quote object -->
+          <span class="listName"><%= el.name %></span>
+          <!-- Output quote from the iterated quote object -->
+          <span class="listNumber"><%= el.quote %></span>
+          <!-- <span  class="stData boolean-value"><%= quotes.st %></span> -->
+          <button class="unicode strikethrough-button">&#9989;</button>
+          <button class='unicode delete-listing-button'>&#128465;</button>
+          
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <script src="/revised-main.js"></script>
+
+</body>
+</html>

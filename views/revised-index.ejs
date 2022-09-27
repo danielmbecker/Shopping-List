@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Shopping List CRUD App</title>
+    <link rel="shortcut icon" href="#">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/styles.css"> 
+
+</head>
+<body>
+  <h1 id="title" class=title> Shopping List App</h1>
+
+
+  <!-- <label for="Store">Store:</label>
+    <select name="store" id="store">
+      <option value="SafeWay" selected>SafeWay</option>
+      <option value="Trader Hoe's">Trader Hoe's</option>
+      <option value="Costco">Costco</option>
+    </select> -->
+
+    
+
+    <div class="listInput dropDown">
+      <h1>Add a store</h1>
+    
+
+        <label for="stores"></label>
+        <select id="stores" name="stores">
+               
+        
+        <% dropDownValues.forEach((item, i) => { %>
+          
+          <option class="dropDownSelection" value=<%=i%>><%= item.storeName %></option>
+        <% }) %>
+      </select>  
+        <button id='add-store-button'>Add a Store</button>
+        <button id='remove-store-button'>Remove Store</button>
+        <div class="hidden" id="new-store-div">
+          <input autocapitalize type="text" minlength=1 placeholder="New Store" name="store" id="input-new-store">
+          <button id='confirm-add-button'>Add</button>
+        </div>
+    </div>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p>Confirm delete Store Name</p>
+    <button class="close"> Go Back</button>
+    <button id='confirm-delete-button'>Delete</button>
+
+  </div>
+
+</div>
+   
+
+    
+
+
+  <div class=flex>
+    <div class="listInput flexChild">
+      <h1>Add an Item</h1>
+
+      <form class="form" action="/quotes" method="POST">
+        <input autocapitalize hidden type="text" minlength=1  name="store" id="input-store" >
+        <input autocapitalize type="text" minlength=1 placeholder="Item" name="name" id="input-name" required>
+        <input type="number" min=0 placeholder="Quantity" name="quote" id="input-quote">
+        <!-- type="number" min="0" -->
+        <button id='submit-button' type="submit">&#10132;</button>
+        <div id="message"></div>
+      </form>
+    </div>
+
+
+    
+
+    <div id=listDisplay class=listOfLists>
+
+        <% storeList.forEach(store => { %>
+        <h1 class="storesTitles storeName"><%= store %></h1>
+        <ul class=" quotes storeListings ul">
+            <% submittedValues.forEach(el => { %>
+            <% if(el.store === store ){ %>
+              <li class="quote listItem" data-id='<%=el._id%>' data-name='<%=el.name%>' data-quote='<%=el.quote%>' data-bool='<%=el.st%>' data-store='<%=el.store%>'>
+                <span class="listName"><%= el.name %></span>
+                <span class="listNumber"><%= el.quote %></span>
+                <button class="unicode strikethrough-button">&#9989;</button>
+                <button class='unicode delete-listing-button'>&#128465;</button>      
+              </li>
+            <% }%>
+            <% }) %>
+          </ul>
+        <% }) %>
+
+    </div>
+
+  <script src="/revised-main.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
